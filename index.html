@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SOC Analyst Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #050a0e;
+      --bg2: #0a1520;
+      --panel: #0d1f2d;
+      --border: #1a3a4a;
+      --accent: #00d4ff;
+      --accent2: #00ff88;
+      --accent3: #ff6b35;
+      --text: #c8dde8;
+      --muted: #4a7a8a;
+      --danger: #ff3366;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,212,255,0.015) 2px,
+        rgba(0,212,255,0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Grid background */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(5,10,14,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--accent);
+      font-size: 14px;
+      letter-spacing: 3px;
+    }
+
+    .nav-logo span { color: var(--accent2); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent2); }
+      50% { opacity: 0.4; box-shadow: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 48px 80px;
+    }
+
+    .hero-content { max-width: 700px; }
+
+    .hero-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(48px, 7vw, 88px);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .hero h1 .name-accent { color: var(--accent); }
+
+    .hero-role {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 18px;
+      color: var(--accent2);
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text);
+      opacity: 0.8;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 3px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--accent);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 3px;
+      border: 1px solid var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(0,212,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Terminal widget */
+    .hero-terminal {
+      position: absolute;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 380px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--accent);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .t-red { background: var(--danger); }
+    .t-yellow { background: #ffcc00; }
+    .t-green { background: var(--accent2); }
+
+    .terminal-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 8px;
+      letter-spacing: 1px;
+    }
+
+    .terminal-body {
+      padding: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .t-line { display: flex; gap: 8px; }
+    .t-prompt { color: var(--accent2); }
+    .t-cmd { color: var(--text); }
+    .t-output { color: var(--muted); padding-left: 16px; }
+    .t-highlight { color: var(--accent); }
+    .t-success { color: var(--accent2); }
+    .t-cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--accent);
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 48px;
+    }
+
+    .section-title span { color: var(--accent); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text);
+      opacity: 0.85;
+      margin-bottom: 16px;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 20px;
+    }
+
+    .stat-number {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    /* ── SKILLS ── */
+    .skills-bg { background: var(--bg2); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-category {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-category::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .skill-cat-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .skill-cat-icon { font-size: 18px; }
+
+    .skill-item {
+      margin-bottom: 14px;
+    }
+
+    .skill-name-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .skill-name {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .skill-pct {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+    }
+
+    .skill-bar {
+      height: 4px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1.5s ease;
+    }
+
+    /* ── LEARNING PATH ── */
+    .path-timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .path-timeline::before {
+      content: '';
+      position: absolute;
+      left: 12px; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--accent), var(--border));
+    }
+
+    .path-item {
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    .path-dot {
+      position: absolute;
+      left: -34px;
+      top: 4px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: var(--bg);
+    }
+
+    .path-dot.active {
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .path-dot.future {
+      border-color: var(--border);
+    }
+
+    .path-phase {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+
+    .path-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .path-desc {
+      font-size: 14px;
+      color: var(--text);
+      opacity: 0.7;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .path-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .tag.active-tag {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,212,255,0.05);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-bg { background: var(--bg2); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 28px;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+
+    .project-card:hover::after { transform: scaleX(1); }
+
+    .project-type {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--accent2);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .project-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--text);
+      opacity: 0.7;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .project-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .tool-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      padding: 3px 10px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--accent);
+    }
+
+    .project-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+    }
+
+    .status-in-progress { color: var(--accent3); }
+    .status-planned { color: var(--muted); }
+    .status-done { color: var(--accent2); }
+
+    /* ── CERTS ── */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .cert-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .cert-card:hover { border-color: var(--accent); }
+
+    .cert-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .cert-issuer {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .cert-status-badge {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      padding: 3px 10px;
+      letter-spacing: 2px;
+    }
+
+    .badge-target {
+      border: 1px solid var(--accent3);
+      color: var(--accent3);
+      background: rgba(255,107,53,0.08);
+    }
+
+    .badge-inprogress {
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: rgba(0,212,255,0.08);
+    }
+
+    .badge-earned {
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      background: rgba(0,255,136,0.08);
+    }
+
+    /* ── CONTACT ── */
+    .contact-bg { background: var(--bg2); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-info p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text);
+      opacity: 0.8;
+      margin-bottom: 32px;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .contact-link-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .contact-link-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+    .form-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+    }
+
+    .form-input, .form-textarea {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    .footer-text span { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 48px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      .hero-terminal { display: none; }
+      section { padding: 70px 24px; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .divider { margin: 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">[<span>SOC</span>_ANALYST]</div>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#path">LEARNING</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#certs">CERTS</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    AVAILABLE FOR INTERNSHIP
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-tag">SOC ANALYST IN TRAINING</div>
+    <h1>NAMA<br><span class="name-accent">KAMU</span></h1>
+    <div class="hero-role">// Cybersecurity Enthusiast</div>
+    <p class="hero-desc">
+      Mahasiswa IT dengan fokus pada keamanan siber dan SOC Analysis. 
+      Membangun fondasi kuat di threat detection, incident response, 
+      dan network monitoring untuk melindungi aset digital.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">LIHAT PROJECTS</a>
+      <a href="#contact" class="btn-outline">HUBUNGI SAYA</a>
+    </div>
+  </div>
+
+  <div class="hero-terminal">
+    <div class="terminal-bar">
+      <div class="t-dot t-red"></div>
+      <div class="t-dot t-yellow"></div>
+      <div class="t-dot t-green"></div>
+      <span class="terminal-title">analyst@soc-terminal ~ </span>
+    </div>
+    <div class="terminal-body">
+      <div class="t-line">
+        <span class="t-prompt">$</span>
+        <span class="t-cmd">whoami</span>
+      </div>
+      <div class="t-output t-highlight">SOC Analyst (Training Mode)</div>
+      <br>
+      <div class="t-line">
+        <span class="t-prompt">$</span>
+        <span class="t-cmd">cat skills.txt</span>
+      </div>
+      <div class="t-output">→ Network Security Fundamentals</div>
+      <div class="t-output">→ Log Analysis & SIEM</div>
+      <div class="t-output">→ Incident Response Basics</div>
+      <div class="t-output">→ Threat Intelligence</div>
+      <br>
+      <div class="t-line">
+        <span class="t-prompt">$</span>
+        <span class="t-cmd">cat status.txt</span>
+      </div>
+      <div class="t-output t-success">✓ Open to Internship Opportunities</div>
+      <div class="t-output t-success">✓ Currently: TryHackMe Active</div>
+      <br>
+      <div class="t-line">
+        <span class="t-prompt">$</span>
+        <span class="t-cursor"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">// 01. TENTANG SAYA</div>
+  <div class="section-title">WHO <span>AM I</span></div>
+  <div class="about-grid fade-in">
+    <div class="about-text">
+      <p>
+        Saya adalah mahasiswa Teknik Informatika yang memiliki ketertarikan kuat 
+        pada bidang keamanan siber, khususnya Security Operations Center (SOC). 
+        Saya percaya bahwa di era digital ini, keamanan informasi adalah salah satu 
+        bidang yang paling kritis dan strategis.
+      </p>
+      <p>
+        Dengan background IT yang solid, saya sedang membangun expertise di 
+        threat detection, log analysis, dan incident response. Tujuan saya adalah 
+        menjadi SOC Analyst yang mampu melindungi infrastruktur digital dari 
+        ancaman siber yang terus berkembang.
+      </p>
+      <p>
+        Saya juga memiliki ketertarikan di bidang K3 (Keselamatan & Kesehatan Kerja) 
+        untuk industri, yang membuka peluang unik di <strong style="color:var(--accent)">OT Security</strong> — 
+        gabungan cybersecurity dan keamanan sistem industri.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">IT</div>
+        <div class="stat-label">BACKGROUND</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">SOC</div>
+        <div class="stat-label">FOKUS KARIR</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">K3</div>
+        <div class="stat-label">SKILL COMBO</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">OT</div>
+        <div class="stat-label">TARGET NICHE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-bg">
+  <div class="section-label">// 02. KEMAMPUAN</div>
+  <div class="section-title">SKILL <span>SET</span></div>
+  <div class="skills-grid fade-in">
+
+    <div class="skill-category">
+      <div class="skill-cat-title"><span class="skill-cat-icon">🛡️</span> SOC FUNDAMENTALS</div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Network Security</span><span class="skill-pct">60%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Log Analysis</span><span class="skill-pct">40%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:40%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Threat Intelligence</span><span class="skill-pct">30%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:30%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Incident Response</span><span class="skill-pct">25%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:25%"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-title"><span class="skill-cat-icon">💻</span> TECHNICAL SKILLS</div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Linux / CLI</span><span class="skill-pct">55%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Networking (TCP/IP)</span><span class="skill-pct">50%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Wireshark</span><span class="skill-pct">35%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:35%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Python Scripting</span><span class="skill-pct">40%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:40%"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-title"><span class="skill-cat-icon">⚙️</span> TOOLS & PLATFORM</div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">TryHackMe</span><span class="skill-pct">Active</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Splunk (Basic)</span><span class="skill-pct">20%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:20%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Nmap</span><span class="skill-pct">35%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:35%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name-row"><span class="skill-name">Virtualization (VMs)</span><span class="skill-pct">50%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LEARNING PATH -->
+<section id="path">
+  <div class="section-label">// 03. LEARNING ROADMAP</div>
+  <div class="section-title">MY <span>JOURNEY</span></div>
+  <div class="path-timeline fade-in">
+
+    <div class="path-item">
+      <div class="path-dot active"></div>
+      <div class="path-phase">PHASE 01 — SEKARANG</div>
+      <div class="path-title">Fondasi Cybersecurity</div>
+      <p class="path-desc">Membangun pemahaman dasar networking, OS, dan konsep keamanan siber melalui platform online dan lab virtual.</p>
+      <div class="path-tags">
+        <span class="tag active-tag">TryHackMe</span>
+        <span class="tag active-tag">CompTIA Security+</span>
+        <span class="tag active-tag">Networking Basics</span>
+        <span class="tag active-tag">Linux Fundamentals</span>
+      </div>
+    </div>
+
+    <div class="path-item">
+      <div class="path-dot"></div>
+      <div class="path-phase">PHASE 02 — TARGET 6 BULAN</div>
+      <div class="path-title">SOC Core Skills</div>
+      <p class="path-desc">Fokus pada SIEM tools, log analysis, threat detection, dan simulasi incident response di lab environment.</p>
+      <div class="path-tags">
+        <span class="tag">Splunk/ELK Stack</span>
+        <span class="tag">Blue Team Labs</span>
+        <span class="tag">Threat Hunting</span>
+        <span class="tag">MITRE ATT&CK</span>
+      </div>
+    </div>
+
+    <div class="path-item">
+      <div class="path-dot future"></div>
+      <div class="path-phase">PHASE 03 — TARGET 1 TAHUN</div>
+      <div class="path-title">Sertifikasi & Spesialisasi</div>
+      <p class="path-desc">Mengambil sertifikasi resmi dan mulai eksplorasi OT Security untuk industri tambang dan migas.</p>
+      <div class="path-tags">
+        <span class="tag">CompTIA CySA+</span>
+        <span class="tag">OT/ICS Security</span>
+        <span class="tag">SCADA Systems</span>
+        <span class="tag">Industrial Cybersecurity</span>
+      </div>
+    </div>
+
+    <div class="path-item">
+      <div class="path-dot future"></div>
+      <div class="path-phase">PHASE 04 — LONG TERM</div>
+      <div class="path-title">SOC Analyst + OT Security Specialist</div>
+      <p class="path-desc">Menjadi spesialis keamanan siber untuk industri berat dengan kombinasi K3 dan cybersecurity — niche yang sangat langka.</p>
+      <div class="path-tags">
+        <span class="tag">Mining/Oil & Gas</span>
+        <span class="tag">K3 + Cybersecurity</span>
+        <span class="tag">Senior SOC Analyst</span>
+        <span class="tag">Security Consultant</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" class="projects-bg">
+  <div class="section-label">// 04. PROJECTS & LAB</div>
+  <div class="section-title">HANDS-ON <span>EXPERIENCE</span></div>
+  <div class="projects-grid fade-in">
+
+    <div class="project-card">
+      <div class="project-type">// HOME LAB</div>
+      <div class="project-title">SOC Home Lab Setup</div>
+      <p class="project-desc">Membangun environment lab pribadi menggunakan VM untuk simulasi serangan dan deteksi ancaman menggunakan tools open source.</p>
+      <div class="project-tools">
+        <span class="tool-badge">VirtualBox</span>
+        <span class="tool-badge">Kali Linux</span>
+        <span class="tool-badge">Ubuntu Server</span>
+        <span class="tool-badge">Wireshark</span>
+      </div>
+      <div class="project-status status-in-progress">⬡ IN PROGRESS</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">// CTF / PLATFORM</div>
+      <div class="project-title">TryHackMe Challenges</div>
+      <p class="project-desc">Menyelesaikan berbagai room dan challenge di TryHackMe dengan fokus pada Blue Team path — log analysis, SIEM, dan defensive security.</p>
+      <div class="project-tools">
+        <span class="tool-badge">TryHackMe</span>
+        <span class="tool-badge">Blue Team Path</span>
+        <span class="tool-badge">SOC Level 1</span>
+      </div>
+      <div class="project-status status-in-progress">⬡ IN PROGRESS</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">// ANALYSIS</div>
+      <div class="project-title">Network Traffic Analysis</div>
+      <p class="project-desc">Analisis packet capture untuk mengidentifikasi anomali traffic, suspicious connections, dan potensi serangan menggunakan Wireshark.</p>
+      <div class="project-tools">
+        <span class="tool-badge">Wireshark</span>
+        <span class="tool-badge">tcpdump</span>
+        <span class="tool-badge">PCAP Analysis</span>
+      </div>
+      <div class="project-status status-planned">○ PLANNED</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">// SIEM</div>
+      <div class="project-title">Splunk Log Monitoring</div>
+      <p class="project-desc">Implementasi Splunk untuk monitoring log sistem, membuat dashboard alert, dan deteksi aktivitas mencurigakan di environment lab.</p>
+      <div class="project-tools">
+        <span class="tool-badge">Splunk Free</span>
+        <span class="tool-badge">Log Analysis</span>
+        <span class="tool-badge">Dashboard</span>
+        <span class="tool-badge">Alerting</span>
+      </div>
+      <div class="project-status status-planned">○ PLANNED</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="section-label">// 05. SERTIFIKASI</div>
+  <div class="section-title">CERT <span>ROADMAP</span></div>
+  <div class="certs-grid fade-in">
+
+    <div class="cert-card">
+      <div class="cert-icon">🎯</div>
+      <div>
+        <div class="cert-name">CompTIA Security+</div>
+        <div class="cert-issuer">CompTIA</div>
+        <span class="cert-status-badge badge-target">TARGET UTAMA</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">📚</div>
+      <div>
+        <div class="cert-name">Google Cybersecurity</div>
+        <div class="cert-issuer">Google / Coursera</div>
+        <span class="cert-status-badge badge-inprogress">IN PROGRESS</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">🔵</div>
+      <div>
+        <div class="cert-name">Blue Team Junior Analyst</div>
+        <div class="cert-issuer">Security Blue Team</div>
+        <span class="cert-status-badge badge-target">TARGET</span>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">🏆</div>
+      <div>
+        <div class="cert-name">CompTIA CySA+</div>
+        <div class="cert-issuer">CompTIA</div>
+        <span class="cert-status-badge badge-target">FUTURE TARGET</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-bg">
+  <div class="section-label">// 06. KONTAK</div>
+  <div class="section-title">GET IN <span>TOUCH</span></div>
+  <div class="contact-grid fade-in">
+    <div class="contact-info">
+      <p>
+        Saya terbuka untuk kesempatan internship, kolaborasi project, 
+        atau sekadar diskusi seputar cybersecurity dan SOC. 
+        Jangan ragu untuk menghubungi saya!
+      </p>
+      <div class="contact-links">
+        <a href="mailto:email@gmail.com" class="contact-link">
+          <span class="contact-link-icon">📧</span>
+          <span class="contact-link-text">email@gmail.com</span>
+        </a>
+        <a href="https://linkedin.com" class="contact-link">
+          <span class="contact-link-icon">💼</span>
+          <span class="contact-link-text">linkedin.com/in/namakamu</span>
+        </a>
+        <a href="https://github.com" class="contact-link">
+          <span class="contact-link-icon">💻</span>
+          <span class="contact-link-text">github.com/namakamu</span>
+        </a>
+        <a href="https://tryhackme.com" class="contact-link">
+          <span class="contact-link-icon">🎯</span>
+          <span class="contact-link-text">tryhackme.com/p/namakamu</span>
+        </a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-group">
+        <label class="form-label">// NAMA</label>
+        <input type="text" class="form-input" placeholder="Nama lengkap kamu"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">// EMAIL</label>
+        <input type="email" class="form-input" placeholder="email@company.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">// PESAN</label>
+        <textarea class="form-textarea" rows="5" placeholder="Tuliskan pesan kamu disini..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:fit-content">KIRIM PESAN</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text">© 2025 <span>NAMA KAMU</span> — SOC ANALYST IN TRAINING</div>
+  <div class="footer-text">BUILT WITH <span>♥</span> & CAFFEINE</div>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
